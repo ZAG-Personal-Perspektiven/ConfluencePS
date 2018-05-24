@@ -35,6 +35,14 @@ Install-Module PSDepend -Scope CurrentUser -Force
 Write-Host "Installing InvokeBuild"
 Install-Module InvokeBuild -Scope CurrentUser -Force -verbose
 
+$testpath = "C:\Windows\system32\config\systemprofile\Documents\WindowsPowerShell\Modules"
+$PSModulePath = $env:PSModulePath -split ([IO.Path]::PathSeparator)
+if ($testpath -notin $PSModulePath) {
+    $PSModulePath += $testpath
+    $env:PSModulePath = $PSModulePath -join ([IO.Path]::PathSeparator)
+}
+
+
 Write-Host "Debug:"
 Get-Module -List | Out-String | Write-Host
 Write-Host "Debug:"
