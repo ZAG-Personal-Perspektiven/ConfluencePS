@@ -31,8 +31,10 @@ if (-not ($gallery.Trusted)) {
 
 Write-Host "Installing PSDepend"
 Install-Module PSDepend -Scope CurrentUser -Force
+
 Write-Host "Installing InvokeBuild"
 Install-Module InvokeBuild -Scope CurrentUser -Force
+Import-Module InvokeBuild -Force
 
 Write-Host "Installing Dependencies"
 Invoke-Build -Task InstallDependencies
