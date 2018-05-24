@@ -33,8 +33,13 @@ Write-Host "Installing PSDepend"
 Install-Module PSDepend -Scope CurrentUser -Force
 
 Write-Host "Installing InvokeBuild"
-Install-Module InvokeBuild -Scope CurrentUser -Force
-Import-Module InvokeBuild -Force
+Install-Module InvokeBuild -Scope CurrentUser -Force -verbose
+
+Write-Host "Debug:"
+Get-Module -List | Out-String | Write-Host
+Write-Host "Debug:"
+$env:PSModulePath | Out-String | Write-Host
 
 Write-Host "Installing Dependencies"
+Import-Module InvokeBuild -Force
 Invoke-Build -Task InstallDependencies
