@@ -15,8 +15,8 @@ Describe "ConfluencePS" {
         $changelogFile = if (Test-Path "$projectRoot/CHANGELOG.md") {
             "$projectRoot/CHANGELOG.md"
         }
-        elseif (Test-Path "$moduleRoot/CHANGELOG.htm") {
-            "$moduleRoot/CHANGELOG.htm"
+        elseif (Test-Path "$moduleRoot/CHANGELOG.md") {
+            "$moduleRoot/CHANGELOG.md"
         }
         $appveyorFile = if (Test-Path "$projectRoot/appveyor.yml") {
             "$projectRoot/appveyor.yml"

@@ -1,3 +1,6 @@
+# Set merge behavior for the changelog
+CHANGELOG.md merge=union
+
 # Set default behaviour, in case users don't have core.autocrlf set.
 * text=auto
 
@@ -15,6 +18,7 @@
 *.clixml text  eol=crlf
 *.xml    text  eol=crlf
 *.txt    text  eol=crlf
+*.md     text  eol=crlf
 
 # Denote all files that are truly binary and should not be mergeable.
 *.dll binary
