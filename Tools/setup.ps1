@@ -1,6 +1,11 @@
 [CmdletBinding()]
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingWriteHost', '')]
-param()
+[System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingEmptyCatchBlock', '')]
+param(
+    [Parameter()]
+    [ValidateSet('CurrentUser', 'AllUsers')]
+    $Scope = "AllUsers"
+)
 
 # If PowerShellGet is not available (PSv4 and PSv3), it must be installed
 if ($PSVersionTable.PSVersion.Major -in @(3, 4)) {
@@ -24,30 +29,19 @@ if (-not ($gallery = Get-PSRepository -Name PSGallery -ErrorAction SilentlyConti
 }
 
 # Make PSGallery trusted, to aviod a confirmation in the console
+try {
 if (-not ($gallery.Trusted)) {
     Write-Host "Trusting PSGallery"
-    # Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted -ErrorAction SilentlyContinue
+        Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted -ErrorAction SilentlyContinue
+    }
 }
+catch {}
 
 Write-Host "Installing PSDepend"
-Install-Module PSDepend -Scope CurrentUser -Force
+Install-Module PSDepend -Scope $Scope -Force
 
 Write-Host "Installing InvokeBuild"
-Install-Module InvokeBuild -Scope CurrentUser -Force -verbose
-
-$testpath = "C:\Windows\system32\config\systemprofile\Documents\WindowsPowerShell\Modules"
-$PSModulePath = $env:PSModulePath -split ([IO.Path]::PathSeparator)
-if ($testpath -notin $PSModulePath) {
-    $PSModulePath += $testpath
-    $env:PSModulePath = $PSModulePath -join ([IO.Path]::PathSeparator)
-}
-
-
-Write-Host "Debug:"
-Get-Module -List | Out-String | Write-Host
-Write-Host "Debug:"
-$env:PSModulePath | Out-String | Write-Host
+Install-Module InvokeBuild -Scope $Scope -Force
 
 Write-Host "Installing Dependencies"
-Import-Module InvokeBuild -Force
 Invoke-Build -Task InstallDependencies
