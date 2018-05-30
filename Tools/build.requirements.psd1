@@ -16,6 +16,8 @@
         }
         Version    = "4.1.1"
     }
-    platyPS          = "latest"
+    platyPS          = @{
+        Version = "0.8.3"
+    }
     PSScriptAnalyzer = "latest"
 }
