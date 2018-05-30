@@ -2,6 +2,10 @@
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingWriteHost', '')]
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingEmptyCatchBlock', '')]
 param(
+    [Parameter()]
+    [ValidateSet('CurrentUser', 'AllUsers')]
+    $Scope = "AllUsers",
+
     [String[]]$Tag,
     [String[]]$ExcludeTag
 )
@@ -35,10 +39,12 @@ task SetUp InstallDependencies, Build
 
 # Synopsis: Install all module used for the development of this module
 task InstallDependencies {
-    Install-PSDepend
+    Install-PSDepend -Scope $Scope
     Import-Module PSDepend -Force
+
     $parameterPSDepend = @{
         Path        = "$PSScriptRoot/Tools/build.requirements.psd1"
+        Target      = $Scope
         Install     = $true
         Import      = $true
         Force       = $true

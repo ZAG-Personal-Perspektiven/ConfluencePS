@@ -21,9 +21,14 @@ function Add-ToModulePath ([String]$Path) {
     }
 }
 function Install-PSDepend {
+    param(
+        [Parameter()]
+        [ValidateSet('CurrentUser', 'AllUsers')]
+        $Scope = "AllUsers"
+    )
     if (-not (Get-Module PSDepend -ListAvailable)) {
         if (Get-Module PowershellGet -ListAvailable) {
-            Install-Module PSDepend -Scope CurrentUser -ErrorAction Stop -Verbose
+            Install-Module PSDepend -Scope $Scope -ErrorAction Stop -Verbose
         }
         else {
             throw "The PowershellGet module is not available."
